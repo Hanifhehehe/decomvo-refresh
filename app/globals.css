@@ -1,10 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@800&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap");
 @import "tailwindcss";
 
 :root {
-  --font-headline-stack: "Manrope", sans-serif;
-  --font-body-stack: "Crimson Pro", serif;
+  --font-headline-stack: var(--font-headline), "Manrope", sans-serif;
+  --font-body-stack: var(--font-body), "Crimson Pro", serif;
 }
 
 @theme inline {
@@ -66,9 +65,7 @@
   --color-charcoal: #181c1e;
 }
 
-html {
-  scroll-behavior: smooth;
-}
+/* Removed global html { scroll-behavior: smooth; } for instant responsive scrolling */
 
 body {
   background-color: #ffffff;
@@ -112,23 +109,29 @@ body {
 }
 
 #main-header.scrolled {
-  background-color: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(12px);
+  background-color: #ffffff;
   box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
 }
 
 /* Scroll Reveal System - Enhanced */
 .reveal-hidden {
   opacity: 0;
-  transform: translateY(40px);
+  transform: translateY(15px);
   transition:
-    opacity 1s cubic-bezier(0.2, 0.8, 0.2, 1),
-    transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+    opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1),
+    transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .reveal-visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+@media (max-width: 1024px) {
+  .reveal-hidden {
+    transform: none !important;
+    transition: opacity 0.6s ease-out !important;
+  }
 }
 
 .reveal-delay-1 {
@@ -143,21 +146,30 @@ body {
   transition-delay: 0.45s;
 }
 
-/* Hero Animations */
+/* Hero Animations - Optimized */
 .stagger-line {
   display: block;
-  overflow: hidden;
 }
 
 .stagger-word {
   display: inline-block;
-  transform: translateY(110%);
-  animation: slideUp 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  opacity: 0;
+  transform: translateY(8px);
+  animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
 @keyframes slideUp {
   to {
+    opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@media (max-width: 1024px) {
+  .stagger-word {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
   }
 }
 
@@ -265,7 +277,6 @@ body {
 }
 
 .parallax-target {
-  will-change: transform;
   height: 120%;
   width: 100%;
   object-fit: cover;
@@ -277,11 +288,19 @@ body {
 
 /* Parallax Elements */
 [data-parallax="true"] {
-  will-change: transform;
   transition: transform 0.1s linear;
 }
 
+@media (min-width: 1024px) {
+
+  .parallax-target,
+  [data-parallax="true"] {
+    will-change: transform;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+
   .reveal-hidden,
   .stagger-word,
   .parallax-target,

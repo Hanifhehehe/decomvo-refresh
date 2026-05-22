@@ -20,14 +20,12 @@ function ProjectCard({
 
   return (
     <article
-      className={`archive-entry reveal-section reveal-hidden flex flex-col border-b border-charcoal md:col-span-12 md:flex-row group ${
-        reverse ? "md:flex-row-reverse" : ""
-      }`}
+      className={`archive-entry reveal-section reveal-hidden flex flex-col border-b border-charcoal md:col-span-12 md:flex-row group ${reverse ? "md:flex-row-reverse" : ""
+        }`}
     >
       <div
-        className={`relative overflow-hidden border-charcoal ${
-          reverse ? "md:w-[65%] md:border-l" : "md:w-[45%] md:border-r"
-        } ${reverse ? "h-[600px]" : "h-[500px]"} ${isDark ? "bg-charcoal" : "bg-archival"}`}
+        className={`relative overflow-hidden border-charcoal ${reverse ? "md:w-[65%] md:border-l" : "md:w-[45%] md:border-r"
+          } ${reverse ? "h-[600px]" : "h-[500px]"} ${isDark ? "bg-charcoal" : "bg-archival"}`}
       >
         <Image
           alt="Projekt Image"
@@ -36,28 +34,26 @@ function ProjectCard({
           sizes="(max-width: 768px) 100vw, 65vw"
           src={image}
         />
-        <div className="absolute inset-0 bg-primary/20 opacity-0 mix-blend-overlay transition-opacity duration-500 group-hover:opacity-100" />
+        {/* High performance color overlay (removed mix-blend-overlay to reduce painting complexity) */}
+        <div className="absolute inset-0 bg-primary/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
       </div>
 
       <div
-        className={`reveal-section reveal-hidden reveal-delay-1 flex flex-col justify-center p-8 md:p-24 ${
-          reverse ? "md:w-[35%]" : "md:w-[55%]"
-        } ${isDark ? "bg-primary text-white" : "bg-white"}`}
+        className={`reveal-section reveal-hidden reveal-delay-1 flex flex-col justify-center p-8 md:p-24 ${reverse ? "md:w-[35%]" : "md:w-[55%]"
+          } ${isDark ? "bg-primary text-white" : "bg-white"}`}
       >
         <div className="mb-12 flex items-center gap-6">
           <span
-            className={`font-headline text-6xl font-black tracking-tighter transition-colors duration-500 ${
-              isDark ? "text-white/20 group-hover:text-white/40" : "text-primary/10 group-hover:text-primary/30"
-            }`}
+            className={`font-headline text-6xl font-black tracking-tighter transition-colors duration-500 ${isDark ? "text-white/20 group-hover:text-white/40" : "text-primary/10 group-hover:text-primary/30"
+              }`}
           >
             {index}
           </span>
           {category ? (
             <div>
               <p
-                className={`font-headline text-[10px] font-bold uppercase tracking-widest ${
-                  isDark ? "text-white/70" : "text-archival"
-                }`}
+                className={`font-headline text-[10px] font-bold uppercase tracking-widest ${isDark ? "text-white/70" : "text-archival"
+                  }`}
               >
                 {category}
               </p>
@@ -69,9 +65,8 @@ function ProjectCard({
         </div>
 
         <h3
-          className={`mb-8 font-headline text-4xl font-extrabold uppercase leading-tight tracking-tighter transition-colors duration-500 md:text-7xl ${
-            isDark ? "text-white" : "group-hover:text-primary"
-          }`}
+          className={`mb-8 font-headline text-4xl font-extrabold uppercase leading-tight tracking-tighter transition-colors duration-500 md:text-7xl ${isDark ? "text-white" : "group-hover:text-primary"
+            }`}
         >
           {title.map((line, idx) => (
             <span key={`${line}-${idx}`}>
@@ -82,19 +77,17 @@ function ProjectCard({
         </h3>
 
         <p
-          className={`mb-12 max-w-xl font-body leading-relaxed ${
-            isDark ? "text-white/80 text-xl" : "text-secondary text-2xl"
-          }`}
+          className={`mb-12 max-w-xl font-body leading-relaxed ${isDark ? "text-white/80 text-xl" : "text-secondary text-2xl"
+            }`}
         >
           {description}
         </p>
 
         <a
-          className={`btn-hover-effect inline-flex w-fit items-center gap-4 border-4 font-headline font-black uppercase transition-all ${
-            isDark
+          className={`btn-hover-effect inline-flex w-fit items-center gap-4 border-4 font-headline font-black uppercase transition-all ${isDark
               ? "btn-hover-effect-inverse border-white px-6 py-4 text-xs tracking-widest"
               : "border-charcoal px-10 py-5 text-sm tracking-[0.3em]"
-          }`}
+            }`}
           href={ctaHref}
         >
           {ctaLabel}
@@ -134,7 +127,7 @@ function ProjectCard({
 export function ProjectsSection() {
   return (
     <section className="relative border-b border-charcoal">
-      <div className="sticky top-[89px] z-10 flex items-center justify-between border-b border-charcoal bg-primary p-8 text-white transition-all duration-300">
+      <div className="top-[89px] z-10 flex items-center justify-between border-b border-charcoal bg-primary p-8 text-white transition-all duration-300">
         <h2 className="font-headline text-3xl font-black uppercase tracking-tighter">
           Index 01: Portfolio
         </h2>

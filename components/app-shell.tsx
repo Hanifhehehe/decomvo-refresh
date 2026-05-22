@@ -20,7 +20,7 @@ export function AppShell({
   return (
     <>
       <SiteHeader />
-      <main className="w-full overflow-x-hidden bg-white">{children}</main>
+      <main className="w-full bg-white">{children}</main>
       <SiteFooter />
       <ScrollEffects />
     </>

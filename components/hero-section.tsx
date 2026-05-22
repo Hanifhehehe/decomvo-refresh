@@ -6,22 +6,23 @@ const HERO_BG_SRC =
 export function HeroSection() {
   return (
     <section className="group relative flex min-h-[90vh] items-center justify-start overflow-hidden border-b border-charcoal">
-      <div className="absolute inset-0 -z-10 opacity-30 mix-blend-multiply">
+      <div className="absolute inset-0 -z-10 opacity-20 bg-white">
         <Image
-          alt=""
-          className="object-cover"
+          alt="Hero Background"
+          className="object-cover pointer-events-none select-none"
           fill
           priority
-          sizes="100vw"
+          sizes="(max-width: 1024px) 100vw, 80vw"
           src={HERO_BG_SRC}
         />
       </div>
 
-      <div className="absolute right-0 top-0 -z-10 h-full w-1/2 translate-x-32 skew-x-12 transform bg-primary/5" />
+      {/* Simplified decorative backdrop (removed skew and translates to minimize compositing overhead) */}
+      <div className="absolute right-0 top-0 -z-10 h-full w-1/3 bg-primary/5" />
 
       <div className="w-full p-8 md:p-24">
-
-        <h1 className="font-headline condensed w-full text-[clamp(2.5rem,8.5vw,10rem)] font-black uppercase leading-[0.85] tracking-tighter mix-blend-multiply">
+        {/* Removed mix-blend-multiply to improve text rendering speed */}
+        <h1 className="font-headline condensed w-full text-[clamp(2.5rem,8.5vw,10rem)] font-black uppercase leading-[0.85] tracking-tighter text-charcoal">
           <span className="stagger-line">
             <span className="stagger-word" style={{ animationDelay: "0.1s" }}>
               Decolonized
