@@ -19,7 +19,7 @@ const crimsonPro = Crimson_Pro({
 });
 
 export const metadata: Metadata = {
-  title: "DeComVo - Decolonized Community Voices (YOLO variant)",
+  title: "DeComVo - Decolonized Community Voices",
   description: "Decolonized Community Voices landing page in Next.js.",
 };
 
