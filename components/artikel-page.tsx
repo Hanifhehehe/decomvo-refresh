@@ -1,63 +1,23 @@
 import Image from "next/image";
 import Link from "next/link";
+import { articleHref, type Article } from "@/sanity/sanity-utils";
 
-const ARTICLES = [
-  {
-    kind: "VOL. 01",
-    title: "Projekte",
-    items: [
-      {
-        meta: "2024 / Aktiv",
-        title: "Profit oder Planet!?",
-        description:
-          "Zwischen Wunsch und Widerspruch: Welche Zusammenhänge bestehen zwischen unserem kapitalistischen Wirtschaftssystem und ökologischen Krisen?",
-      },
-      {
-        meta: "Monatlich",
-        title: "Postkolonialer Lesekreis",
-        description:
-          "Gemeinsames Lesen und kritisches Hinterfragen postkolonialer Theoriebildung und Literatur im kollektiven Rahmen.",
-      },
-      {
-        meta: "Jugend / Fokus",
-        title: "Let’s Decolonize Young Voices",
-        description:
-          "Ein Projekt zur Stärkung marginalisierter Stimmen in der Jugendarbeit und gesellschaftlichen Teilhabe.",
-      },
-    ],
-  },
-  {
-    kind: "JOURNAL",
-    title: "Beiträge",
-    items: [
-      {
-        image:
-          "https://lh3.googleusercontent.com/aida-public/AB6AXuAKylkb61RtEfZti2StHtPM6FFptReFVfluiIXm4YEbrsjqHqArZ4enpmwa3cHr5LM7C_yMIAk6TyoH1gKba8UPIR9Et-Vrijq6MhxJvGC7H00Ldg4B18j7_Kma6SE06m_qQ_V1z-MXnfgfOJa_2ZkLDJkBIvZWEwNb8i0VCkdOYu_V6q6_NgUUVZbEQx7ZORR8KKaBaMXen9_GkteUYWbn3AtzZaJVyLv6Xe2lyWgVW_u3VeFmqsYFf8OkxqTb2zut42KQOSkhuxI",
-        date: "12. Okt 2023",
-        category: "Diaspora",
-        title: "Echos der Diaspora",
-        description:
-          "Reflexionen über kulturelle Identität, Zugehörigkeit und den Erhalt von Traditionen in einem globalisierten Kontext.",
-      },
-      {
-        date: "28. Sep 2023",
-        category: "Technologie",
-        title: "Algorithmic Bias",
-        description:
-          "Wie künstliche Intelligenz bestehende Machtstrukturen reproduziert und was wir dagegen tun können.",
-      },
-      {
-        date: "05. Sep 2023",
-        category: "Geschichte",
-        title: "Systemische Löschung",
-        description:
-          "Analyse der musealen Praktiken und der Notwendigkeit einer umfassenden Restitution von Kulturgütern.",
-      },
-    ],
-  },
-] as const;
+type ArtikelPageProps = {
+  projekte: Article[];
+  beitrage: Article[];
+};
 
-export function ArtikelPage() {
+function formatDate(dateValue: string | null): string {
+  if (!dateValue) return "Undatiert";
+
+  return new Date(dateValue).toLocaleDateString("de-DE", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+}
+
+export function ArtikelPage({ projekte, beitrage }: ArtikelPageProps) {
   return (
     <div className="mx-auto min-h-screen max-w-container-max px-margin-mobile py-12 md:px-margin-desktop">
       <header className="reveal-section reveal-hidden mb-16 border-b-4 border-on-surface pb-6">
@@ -81,14 +41,15 @@ export function ArtikelPage() {
           </div>
 
           <div className="space-y-6">
-            {ARTICLES[0].items.map((item) => (
-              <article
-                key={item.title}
-                className="brutalist-border block-accent group bg-surface-container-low p-6 transition-all hover:bg-surface-container-low"
+            {projekte.map((item) => (
+              <Link
+                key={item._id}
+                className="brutalist-border block-accent group block bg-surface-container-low p-6 transition-all hover:bg-surface-container-low"
+                href={articleHref(item)}
               >
                 <div className="mb-4 flex items-start justify-between gap-4">
                   <span className="text-xs font-semibold uppercase tracking-[0.25em] text-archival">
-                    {item.meta}
+                    {formatDate(item.publishedAt ?? item._createdAt)}
                   </span>
                   <span className="material-symbols-outlined text-primary">
                     north_east
@@ -98,9 +59,9 @@ export function ArtikelPage() {
                   {item.title}
                 </h3>
                 <p className="font-body text-[1.05rem] leading-relaxed text-on-surface-variant">
-                  {item.description}
+                  {item.excerpt ?? "Noch keine Beschreibung verfügbar."}
                 </p>
-              </article>
+              </Link>
             ))}
           </div>
         </section>
@@ -116,15 +77,16 @@ export function ArtikelPage() {
           </div>
 
           <div className="space-y-6">
-            {ARTICLES[1].items.map((item) => (
-              <article
-                key={item.title}
-                className="brutalist-border group bg-surface-container-low p-6 transition-all hover:bg-primary-container/5"
+            {beitrage.map((item) => (
+              <Link
+                key={item._id}
+                className="brutalist-border group block bg-surface-container-low p-6 transition-all hover:bg-primary-container/5"
+                href={articleHref(item)}
               >
-                {"image" in item ? (
+                {item.image ? (
                   <div className="mb-4 overflow-hidden brutalist-border-thin">
                     <Image
-                      alt="Diaspora"
+                      alt={item.title}
                       className="h-48 w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0"
                       height={192}
                       src={item.image}
@@ -135,10 +97,7 @@ export function ArtikelPage() {
 
                 <div className="mb-2 flex gap-4">
                   <span className="text-xs font-semibold uppercase tracking-[0.25em] text-archival">
-                    {item.date}
-                  </span>
-                  <span className="text-xs font-semibold uppercase tracking-[0.25em] text-primary">
-                    • {item.category}
+                    {formatDate(item.publishedAt ?? item._createdAt)}
                   </span>
                 </div>
 
@@ -146,15 +105,10 @@ export function ArtikelPage() {
                   {item.title}
                 </h3>
                 <p className="font-body text-[1.05rem] leading-relaxed text-on-surface-variant">
-                  {item.description}
+                  {item.excerpt ?? "Noch keine Beschreibung verfügbar."}
                 </p>
 
-                <div className="mt-4 border-t border-outline-variant/30 pt-4 text-right">
-                  <span className="material-symbols-outlined text-on-surface">
-                    arrow_forward
-                  </span>
-                </div>
-              </article>
+              </Link>
             ))}
           </div>
         </section>
