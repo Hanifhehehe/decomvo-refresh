@@ -1,5 +1,4 @@
-type ProjectVariant = "light" | "dark";
-type ProjectCtaIcon = "arrow" | "open";
+import type { ProjectCtaIcon, ProjectVariant } from "@/types/site";
 
 export const NAV_ITEMS = [
   { label: "[ 01 ] Startseite", href: "/" },
@@ -16,12 +15,13 @@ export const PROJECTS = [
     description:
       "Interaktiver Workshop in dem ökologische, soziale und menschenrechtliche Implikationen des Kapitalismus untersucht werden.",
     ctaLabel: "Dossier Öffnen",
-    ctaHref: "#",
+    ctaHref: "/projekte/profit-oder-planet",
     ctaIcon: "arrow",
     variant: "light" as ProjectVariant,
     reverse: false,
     image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuBvBVjfINkHFDsBi7NgF3wFYWYu0Ixs432jvVVvniMHxE9b-QciH0Rr-tGSYRLYeVBUM1MMlz3beNI8cCfXQ3UK2QVUxXN-4ul_RQvRlIaCeOlIaedgfEBl6zgYpJ11G3UH8I_-mLVklg33vTvlpJ8n2LhW95mswCil5EoTq3QDLShGVQF5lPHEEjlGtGJLZhMlIjUMjZaM5FXjTnizL4QIyGAW46WTWTIRtX3HfxUhvbOTGB4AZus5sWARyGMic-HaGe1LwK_09l4",
+      "https://lh3.googleusercontent.com/aida-public/AB6AXuBvBVjfINkHFDsBi7NgF3wFYWYu0Ixs432jvVVvniMHxE9b-QciH0Rr-tGSYRLYeVBUM1MMlz3beNI8cCfXQ3UK2QVUxXN-4ul_RQvLlIaCeOlIaedgfEBl6zgYpJ11G3UH8I_-mLVklg33vTvlpJ8n2LhW95mswCil5EoTq3QDLShGVQF5lPHEEjlGtGJLZhMlIjUMjZaM5FXjTnizL4QIyGAW46WTWTIRtX3HfxUhvbOTGB4AZus5sWARyGMic-HaGe1LwK_09l4",
+    stampImage: "https://lh3.googleusercontent.com/aida-public/AB6AXuBvBVjfINkHFDsBi7NgF3wFYWYu0Ixs432jvVVvniMHxE9b-QciH0Rr-tGSYRLYeVBUM1MMlz3beNI8cCfXQ3UK2QVUxXN-4ul_RQvLlIaCeOlIaedgfEBl6zgYpJ11G3UH8I_-mLVklg33vTvlpJ8n2LhW95mswCil5EoTq3QDLShGVQF5lPHEEjlGtGJLZhMlIjUMjZaM5FXjTnizL4QIyGAW46WTWTIRtX3HfxUhvbOTGB4AZus5sWARyGMic-HaGe1LwK_09l4",
   },
   {
     index: "#02",
@@ -30,7 +30,7 @@ export const PROJECTS = [
     description:
       "Monatlich stattfindender Lesekreis in dem postkoloniale Themen und Bücher diskutiert werden.",
     ctaLabel: "Öffnen",
-    ctaHref: "#",
+    ctaHref: "/projekte/postkolonialer-lesekreis",
     ctaIcon: "open",
     variant: "dark" as ProjectVariant,
     reverse: true,

@@ -57,14 +57,12 @@ export function SiteHeader() {
     <>
       <header
         id="main-header"
-        className={`sticky top-0 z-[60] border-b border-charcoal bg-white transition-all duration-300 ${
-          isScrolled ? "scrolled" : ""
-        }`}
+        className={`sticky top-0 z-[60] border-b border-charcoal bg-white transition-all duration-300 ${isScrolled ? "scrolled" : ""
+          }`}
       >
         <div
-          className={`header-inner mx-auto flex max-w-[1600px] items-center justify-between px-8 transition-all duration-300 ${
-            isScrolled ? "py-4" : "py-6"
-          }`}
+          className={`header-inner mx-auto flex max-w-[1600px] items-center justify-between px-8 transition-all duration-300 ${isScrolled ? "py-4" : "py-6"
+            }`}
         >
           <div className="flex items-center gap-4">
             <Link
@@ -87,9 +85,8 @@ export function SiteHeader() {
             {NAV_ITEMS.map((item, index) => (
               <Link
                 key={item.label}
-                className={`nav-link transition-colors hover:text-primary ${
-                  index === activeIndex ? "text-primary" : "text-secondary"
-                }`}
+                className={`nav-link transition-colors hover:text-primary ${index === activeIndex ? "text-primary" : "text-secondary"
+                  }`}
                 href={item.href}
                 onClick={(e) => handleNavLinkClick(e, item.href)}
               >
@@ -103,14 +100,14 @@ export function SiteHeader() {
               <a
                 aria-label="Instagram"
                 className="flex h-8 w-8 items-center justify-center border border-charcoal transition-all duration-300 hover:bg-charcoal hover:text-white"
-                href="#"
+                href="https://instagram.com/decomvo"
               >
                 <InstagramIcon className="h-4 w-4" />
               </a>
               <a
                 aria-label="E-Mail"
                 className="flex h-8 w-8 items-center justify-center border border-charcoal transition-all duration-300 hover:bg-charcoal hover:text-white"
-                href="mailto:hey@hanif.cool"
+                href="/kontakt"
               >
                 <MailIcon className="h-4 w-4" />
               </a>
@@ -131,9 +128,8 @@ export function SiteHeader() {
       </header>
 
       <div
-        className={`fixed inset-0 z-[70] bg-white transition-transform duration-500 md:hidden ${
-          isMenuOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`fixed inset-0 z-[70] bg-white transition-transform duration-500 md:hidden ${isMenuOpen ? "translate-x-0" : "translate-x-full"
+          }`}
         id="mobile-menu"
       >
         <div className="flex h-full flex-col border-x border-charcoal">
@@ -156,11 +152,10 @@ export function SiteHeader() {
             {NAV_ITEMS.map((item, index) => (
               <Link
                 key={item.label}
-                className={`px-8 py-10 transition-colors ${
-                  index === activeIndex
-                    ? "bg-primary text-white"
-                    : "hover:bg-surface-container-low"
-                }`}
+                className={`px-8 py-10 transition-colors ${index === activeIndex
+                  ? "bg-primary text-white"
+                  : "hover:bg-surface-container-low"
+                  }`}
                 href={item.href}
                 onClick={(e) => {
                   setIsMenuOpen(false);

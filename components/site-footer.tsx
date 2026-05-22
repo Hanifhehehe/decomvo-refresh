@@ -67,7 +67,7 @@ export function SiteFooter() {
       </div>
 
       <div className="bg-primary p-4 text-center text-[10px] font-black uppercase tracking-[1em] text-white">
-        END OF DOCUMENT // CLASSIFIED: PUBLIC // VERSION: YOLO_RADICAL_01
+        ENDE DES DOKUMENTS // EINGESTUFT: ÖFFENTLICH
       </div>
     </footer>
   );

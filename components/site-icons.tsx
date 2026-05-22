@@ -1,6 +1,4 @@
-type IconProps = {
-  className?: string;
-};
+import type { IconProps } from "@/types/site";
 
 export function InstagramIcon({ className }: IconProps) {
   return (

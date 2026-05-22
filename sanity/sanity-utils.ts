@@ -1,21 +1,5 @@
 import { createClient } from "@sanity/client";
-
-type ArticleCategory = "projekte" | "beitrage" | "beiträge";
-export type ArticleRoute = "projekte" | "beitrage";
-
-export type Article = {
-  _id: string;
-  _createdAt: string;
-  title: string;
-  category: ArticleCategory;
-  route: ArticleRoute;
-  slug: string;
-  image: string | null;
-  excerpt: string | null;
-  url: string | null;
-  content: unknown;
-  publishedAt: string | null;
-};
+import type { Article, ArticleCategory, ArticleRoute } from "@/types/article";
 
 const routeByCategory: Record<ArticleCategory, ArticleRoute> = {
   projekte: "projekte",
@@ -51,11 +35,12 @@ export function articleHref(article: Pick<Article, "route" | "slug" | "title">):
   return `/${article.route}/${articleSlug(article)}`;
 }
 
-export async function getArticle(): Promise<Article[]> {
+export async function getArticles(): Promise<Article[]> {
   const client = createClient({
     projectId: "3hf8g5le",
     dataset: "production",
     apiVersion: "2023-03-04",
+    useCdn: true,
   });
 
   const articles = await client.fetch(
@@ -87,18 +72,47 @@ export async function getArticle(): Promise<Article[]> {
     .map((article: Omit<Article, "route">) => ({
       ...article,
       excerpt: buildExcerpt(article.excerpt),
-      route: routeByCategory[article.category],
+      route: routeByCategory[article.category as ArticleCategory],
     }));
 }
 
-export async function getArticleByRouteAndSlug(
+export async function getArticle(
   route: ArticleRoute,
   slug: string
 ): Promise<Article | null> {
-  const articles = await getArticle();
-  const article = articles.find(
-    (item) => item.route === route && articleSlug(item) === slug
+  const client = createClient({
+    projectId: "3hf8g5le",
+    dataset: "production",
+    apiVersion: "2023-03-04",
+    useCdn: true,
+  });
+
+  const categories =
+    route === "beitrage" ? ["beitrage", "beiträge"] : ["projekte"];
+
+  const article = await client.fetch(
+    `*[_type == "article" && category in $categories && slug.current == $slug][0]{
+      _id,
+      _createdAt,
+      title,
+      category,
+      "slug": slug.current,
+      "image": coverImage.asset->url,
+      "excerpt": pt::text(content),
+      url,
+      content,
+      publishedAt
+    }`,
+    { categories, slug }
   );
 
-  return article ?? null;
+  if (!article || !article.category || !(article.category in routeByCategory)) {
+    return null;
+  }
+
+  return {
+    ...article,
+    excerpt: buildExcerpt(article.excerpt),
+    route: routeByCategory[article.category as ArticleCategory],
+  };
 }

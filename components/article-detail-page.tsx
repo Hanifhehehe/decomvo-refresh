@@ -1,144 +1,197 @@
 import Image from "next/image";
-import Link from "next/link";
-import type { ReactNode } from "react";
+import type { PortableTextComponents } from "@portabletext/react";
+import { PortableText } from "@portabletext/react";
+import { createImageUrlBuilder } from "@sanity/image-url";
+import type { ArticleDetailPageProps } from "@/types/article-detail";
 
-export type RelatedArticle = {
-  category: string;
-  description: string;
-  href: string;
-  image: string;
-  imageAlt: string;
-  title: string;
-  ctaLabel: string;
-};
+const imageBuilder = createImageUrlBuilder({
+  projectId: "3hf8g5le",
+  dataset: "production",
+});
 
-export type ArticleDetailPageProps = {
-  title: string;
-  excerpt: string;
-  author: string;
-  date: string;
-  heroImage: string;
-  heroImageAlt: string;
-  children: ReactNode;
-  relatedArticles: RelatedArticle[];
+function formatArticleDate(publishedAt: string | null): string | null {
+  if (!publishedAt) return null;
+
+  const date = new Date(publishedAt);
+
+  if (Number.isNaN(date.getTime())) {
+    return null;
+  }
+
+  return new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  }).format(date);
+}
+
+function resolveSanityImage(source: unknown): string | null {
+  if (!source) return null;
+
+  try {
+    return imageBuilder.image(source as never).auto("format").url();
+  } catch {
+    return null;
+  }
+}
+
+const portableTextComponents: PortableTextComponents = {
+  block: {
+    normal: ({ children }) => (
+      <p className="reveal-section reveal-hidden mb-6 font-body text-[1.125rem] leading-relaxed text-on-surface-variant">
+        {children}
+      </p>
+    ),
+    h2: ({ children }) => (
+      <h2 className="reveal-section reveal-hidden mb-6 mt-12 font-headline text-[clamp(1.5rem,3vw,2.5rem)] font-bold leading-tight text-on-surface">
+        {children}
+      </h2>
+    ),
+    h3: ({ children }) => (
+      <h3 className="reveal-section reveal-hidden mb-5 mt-10 font-headline text-[1.25rem] font-bold leading-tight text-on-surface">
+        {children}
+      </h3>
+    ),
+    blockquote: ({ children }) => (
+      <blockquote className="reveal-section reveal-hidden my-10 border-l-4 border-primary bg-surface-container-low p-6 md:p-8">
+        <div className="font-headline text-[clamp(1.25rem,2.2vw,2rem)] font-semibold italic leading-snug text-primary-container">
+          {children}
+        </div>
+      </blockquote>
+    ),
+  },
+  list: {
+    bullet: ({ children }) => (
+      <ul className="reveal-section reveal-hidden mb-6 list-disc space-y-3 pl-6 font-body text-[1.05rem] leading-relaxed text-on-surface-variant">
+        {children}
+      </ul>
+    ),
+    number: ({ children }) => (
+      <ol className="reveal-section reveal-hidden mb-6 list-decimal space-y-3 pl-6 font-body text-[1.05rem] leading-relaxed text-on-surface-variant">
+        {children}
+      </ol>
+    ),
+  },
+  listItem: {
+    bullet: ({ children }) => <li>{children}</li>,
+    number: ({ children }) => <li>{children}</li>,
+  },
+  marks: {
+    link: ({ children, value }) => {
+      const href = typeof value?.href === "string" ? value.href : null;
+
+      if (!href) return <>{children}</>;
+
+      return (
+        <a
+          className="border-b border-primary-container text-primary-container transition-colors hover:border-primary hover:text-primary"
+          href={href}
+          rel="noreferrer"
+          target={href.startsWith("http") ? "_blank" : undefined}
+        >
+          {children}
+        </a>
+      );
+    },
+  },
+  types: {
+    image: ({ value }) => {
+      const src = resolveSanityImage(value);
+      const alt = typeof value?.alt === "string" && value.alt.trim() ? value.alt : "Article image";
+      const caption = typeof value?.caption === "string" ? value.caption : null;
+
+      if (!src) return null;
+
+      return (
+        <figure className="reveal-section reveal-hidden my-12">
+          <div className="group relative aspect-[1.75] overflow-hidden border border-outline-variant/30">
+            <Image
+              alt={alt}
+              className="h-full w-full object-cover grayscale transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0"
+              fill
+              sizes="(max-width: 768px) 100vw, 80vw"
+              src={src}
+            />
+            <div className="absolute inset-0 ring-1 ring-inset ring-black/10 transition-all duration-300 group-hover:ring-black/0" />
+          </div>
+          {caption ? (
+            <figcaption className="mt-2 text-center font-body text-xs uppercase tracking-[0.18em] text-secondary">
+              {caption}
+            </figcaption>
+          ) : null}
+        </figure>
+      );
+    },
+  },
 };
 
 export function ArticleDetailPage({
   title,
   excerpt,
-  author,
-  date,
+  sectionLabel,
+  publishedAt,
   heroImage,
   heroImageAlt,
-  children,
-  relatedArticles,
+  content,
 }: ArticleDetailPageProps) {
+  const formattedDate = formatArticleDate(publishedAt);
+  const heroSrc = heroImage?.trim() ? heroImage : null;
+
   return (
-    <div className="w-full">
-      <header className="relative mb-20 flex min-h-[600px] w-full items-center overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <Image
-            alt={heroImageAlt}
-            className="h-full w-full object-cover"
-            fill
-            priority
-            sizes="100vw"
-            src={heroImage}
-          />
-          <div className="absolute inset-0 bg-surface/80 backdrop-blur-[4px]" />
+    <main className="mx-auto max-w-container-max px-margin-mobile pb-24 pt-12 md:px-margin-desktop md:pt-24">
+      <article className="reveal-section reveal-hidden relative mb-20 flex min-h-[600px] items-center justify-center overflow-hidden border border-outline-variant/30 md:mb-32">
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          {heroSrc ? (
+            <Image
+              alt={heroImageAlt}
+              className="parallax-bg absolute top-[-10%] h-[120%] w-full object-cover"
+              fill
+              priority
+              sizes="100vw"
+              src={heroSrc}
+            />
+          ) : (
+            <div className="h-full w-full bg-surface-container-low" />
+          )}
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]" />
         </div>
 
-        <div className="relative z-10 mx-auto w-full max-w-container-max px-margin-mobile py-16 md:px-margin-desktop">
-          <div className="max-w-5xl">
-            <h1 className="mb-8 font-headline text-[clamp(2.25rem,5vw,4.5rem)] font-black leading-none tracking-tight text-on-surface">
-              {title}
-            </h1>
-            <p className="mb-12 max-w-3xl font-headline text-[clamp(1.25rem,2.4vw,2rem)] leading-tight text-on-surface-variant opacity-95">
+        <div className="relative z-10 max-w-4xl px-margin-mobile text-center md:px-margin-desktop">
+          <div className="mb-6 inline-flex items-center gap-2 border border-white/20 px-4 py-2 text-white/80">
+            <span className="font-headline text-xs font-bold uppercase tracking-[0.2em]">
+              {sectionLabel}
+            </span>
+          </div>
+
+          <h1 className="mb-6 font-headline text-[clamp(2rem,5vw,4.5rem)] font-bold leading-tight text-white">
+            {title}
+          </h1>
+
+          {excerpt ? (
+            <p className="mx-auto mb-10 max-w-3xl font-body text-[clamp(1.125rem,2.3vw,1.5rem)] leading-snug text-white/90">
               {excerpt}
             </p>
+          ) : null}
 
-            <div className="flex flex-wrap items-center gap-x-8 gap-y-4 border-t-2 border-primary-container/40 pt-8">
-              <div className="flex items-center gap-3 font-bold text-on-surface">
-                <span className="material-symbols-outlined text-primary-container">
-                  person
-                </span>
-                <span className="text-xs font-black uppercase tracking-wider md:text-sm">
-                  Authored by {author}
-                </span>
-              </div>
-              <div className="flex items-center gap-3 font-bold text-archival">
-                <span className="material-symbols-outlined text-[18px]">
-                  calendar_today
-                </span>
-                <span className="text-xs font-black uppercase tracking-wider">
-                  {date}
+          <div className="flex flex-wrap items-center justify-center gap-6 border-y border-white/20 py-4 text-white/80">
+            {formattedDate ? (
+              <div className="flex items-center gap-2">
+                <span className="font-headline text-xs font-bold uppercase tracking-[0.2em]">
+                  Published on {formattedDate}
                 </span>
               </div>
-            </div>
+            ) : null}
           </div>
         </div>
-      </header>
+      </article>
 
-      <section className="mx-auto max-w-container-max px-margin-mobile pb-24 md:px-margin-desktop">
-        <div className="grid grid-cols-1 gap-gutter md:grid-cols-12">
-          <div className="fade-in-up visible md:col-start-3 md:col-span-8">
-            <div className="border-x-2 border-primary-container bg-white px-8 py-12 text-on-surface md:px-16">
-              {children}
-            </div>
+      <section className="grid grid-cols-1 gap-gutter md:grid-cols-12">
+        <div className="md:col-start-2 md:col-span-10">
+          <div className="mx-auto max-w-4xl">
+            <PortableText value={content as never} components={portableTextComponents} />
           </div>
         </div>
-
-        <section className="fade-in-up visible mt-32">
-          <div className="mb-8 flex items-center gap-4">
-            <h3 className="shrink-0 font-headline text-[clamp(1.5rem,3vw,2.5rem)] font-black uppercase tracking-tighter text-on-surface">
-              Related Articles
-            </h3>
-            <div className="h-[2px] flex-grow bg-primary-container" />
-          </div>
-
-          <div className="grid grid-cols-1 gap-gutter md:grid-cols-2">
-            {relatedArticles.map((article) => (
-              <article
-                key={article.title}
-                className="group flex flex-col border-2 border-primary-container bg-white transition-colors hover:border-primary"
-              >
-                <div className="relative aspect-video overflow-hidden border-b-2 border-primary-container">
-                  <Image
-                    alt={article.imageAlt}
-                    className="h-full w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0"
-                    fill
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    src={article.image}
-                  />
-                  <div className="absolute right-0 top-0 bg-primary-container px-3 py-1 text-[10px] font-extrabold uppercase tracking-widest text-white">
-                    {article.category}
-                  </div>
-                </div>
-
-                <div className="flex flex-grow flex-col p-6">
-                  <h4 className="mb-3 font-headline text-[1.5rem] font-black leading-tight text-on-surface transition-colors group-hover:text-primary-container">
-                    {article.title}
-                  </h4>
-                  <p className="mb-6 max-h-16 overflow-hidden font-body text-sm leading-relaxed text-on-surface-variant">
-                    {article.description}
-                  </p>
-                  <div className="mt-auto">
-                    <Link
-                      className="inline-flex items-center gap-2 border-b-2 border-primary-container pb-1 text-xs font-black uppercase tracking-wider text-primary-container transition-all hover:gap-4"
-                      href={article.href}
-                    >
-                      {article.ctaLabel}
-                      <span className="material-symbols-outlined text-[16px]">
-                        arrow_forward
-                      </span>
-                    </Link>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
       </section>
-    </div>
+    </main>
   );
 }

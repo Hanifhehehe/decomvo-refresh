@@ -1,6 +1,14 @@
-import type { RelatedArticle } from "@/components/article-detail-page";
+type RelatedArticle = {
+  category: string;
+  description: string;
+  href: string;
+  image: string;
+  imageAlt: string;
+  title: string;
+  ctaLabel: string;
+};
 
-export type ArticleDetailContent = {
+type ArticleDetailContent = {
   slug: string;
   title: string;
   excerpt: string;

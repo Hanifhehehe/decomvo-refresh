@@ -20,10 +20,6 @@ export function HeroSection() {
       <div className="absolute right-0 top-0 -z-10 h-full w-1/2 translate-x-32 skew-x-12 transform bg-primary/5" />
 
       <div className="w-full p-8 md:p-24">
-        <div className="reveal-section reveal-hidden mb-12 inline-flex items-center border border-charcoal bg-white/80 px-4 py-2 font-headline text-[10px] font-bold uppercase tracking-[0.5em]">
-          <div className="mr-3 h-1.5 w-1.5 rounded-full bg-tertiary pulse-accent" />
-          <span>CULTURAL PRESERVATION UNIT</span>
-        </div>
 
         <h1 className="font-headline condensed w-full text-[clamp(2.5rem,8.5vw,10rem)] font-black uppercase leading-[0.85] tracking-tighter mix-blend-multiply">
           <span className="stagger-line">

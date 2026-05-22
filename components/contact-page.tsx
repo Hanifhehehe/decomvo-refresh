@@ -7,10 +7,6 @@ export function ContactPage() {
   return (
     <div className="mx-auto max-w-[1600px] px-margin-mobile py-12 md:px-margin-desktop md:py-16">
       <header className="reveal-section reveal-hidden mb-12 border-b border-charcoal pb-8 md:mb-16 md:pb-10">
-        <div className="mb-6 inline-flex items-center gap-3 border border-charcoal bg-surface-container-low px-4 py-2 font-headline text-[10px] font-black uppercase tracking-[0.5em] text-primary">
-          <span className="h-2 w-2 bg-tertiary" />
-          Editorial Contact
-        </div>
         <h1 className="mb-4 font-headline text-[clamp(2.75rem,5vw,5rem)] font-black leading-tight text-on-surface">
           Kontakt
         </h1>
@@ -29,7 +25,7 @@ export function ContactPage() {
           </div>
 
           <form
-            action="https://formsubmit.co/hey@hanif.cool"
+            action="https://formsubmit.co/info@decomvo.com"
             className="space-y-6 p-8 md:p-12"
             id="contact-form"
             method="POST"
@@ -148,9 +144,9 @@ export function ContactPage() {
           <div className="space-y-0">
             <div className="border-b border-charcoal bg-surface-container-low p-8 md:p-12">
               <div className="flex items-start gap-4">
-                <span className="material-symbols-outlined border border-charcoal bg-white p-3 text-[18px] text-primary">
+                {/* <span className="material-symbols-outlined border border-charcoal bg-white p-3 text-[18px] text-primary">
                   schedule
-                </span>
+                </span> */}
                 <div>
                   <h3 className="mb-2 font-headline text-[1.5rem] font-black uppercase tracking-[0.15em] text-on-surface">
                     Reaktionszeit
@@ -167,15 +163,15 @@ export function ContactPage() {
             <div className="grid grid-cols-1 border-b border-charcoal md:grid-cols-2 lg:grid-cols-1">
               <div className="border-b border-charcoal bg-surface-container-low p-8 transition-colors hover:bg-surface-container md:border-b-0 md:border-r lg:border-r-0">
                 <div className="flex items-center gap-4">
-                  <span className="material-symbols-outlined border border-charcoal bg-white p-3 text-[18px] text-primary">
+                  {/* <span className="material-symbols-outlined border border-charcoal bg-white p-3 text-[18px] text-primary">
                     alternate_email
-                  </span>
+                  </span> */}
                   <div>
                     <p className="text-xs font-black uppercase tracking-[0.25em] text-on-surface-variant">
                       E-Mail
                     </p>
                     <p className="font-body text-[1.05rem] font-semibold text-on-surface">
-                      kontakt@decomvo.org
+                      info@decomvo.com
                     </p>
                   </div>
                 </div>
@@ -183,9 +179,9 @@ export function ContactPage() {
 
               <div className="bg-surface-container-low p-8 transition-colors hover:bg-surface-container md:border-l lg:border-l-0 lg:border-t lg:border-charcoal">
                 <div className="flex items-center gap-4">
-                  <span className="material-symbols-outlined border border-charcoal bg-white p-3 text-[18px] text-primary">
+                  {/* <span className="material-symbols-outlined border border-charcoal bg-white p-3 text-[18px] text-primary">
                     location_on
-                  </span>
+                  </span> */}
                   <div>
                     <p className="text-xs font-black uppercase tracking-[0.25em] text-on-surface-variant">
                       Büro

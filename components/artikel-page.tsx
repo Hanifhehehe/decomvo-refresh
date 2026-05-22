@@ -1,11 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { articleHref, type Article } from "@/sanity/sanity-utils";
-
-type ArtikelPageProps = {
-  projekte: Article[];
-  beitrage: Article[];
-};
+import { articleHref } from "@/sanity/sanity-utils";
+import type { Article } from "@/types/article";
+import type { ArtikelPageProps } from "@/types/page";
 
 function formatDate(dateValue: string | null): string {
   if (!dateValue) return "Undatiert";
@@ -35,32 +32,40 @@ export function ArtikelPage({ projekte, beitrage }: ArtikelPageProps) {
             <h2 className="font-headline text-[clamp(1.75rem,3vw,2.75rem)] font-black uppercase text-on-surface">
               Projekte
             </h2>
-            <span className="border border-charcoal bg-on-surface px-3 py-1 text-xs font-semibold uppercase tracking-wide text-secondary-container">
-              VOL. 01
-            </span>
           </div>
 
           <div className="space-y-6">
             {projekte.map((item) => (
               <Link
                 key={item._id}
-                className="brutalist-border block-accent group block bg-surface-container-low p-6 transition-all hover:bg-surface-container-low"
+                className="brutalist-border group block bg-surface-container-low p-6 transition-all hover:bg-primary-container/5"
                 href={articleHref(item)}
               >
-                <div className="mb-4 flex items-start justify-between gap-4">
+                {item.image ? (
+                  <div className="mb-4 overflow-hidden brutalist-border-thin">
+                    <Image
+                      alt={item.title}
+                      className="h-48 w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0"
+                      height={192}
+                      src={item.image}
+                      width={800}
+                    />
+                  </div>
+                ) : null}
+
+                <div className="mb-2 flex gap-4">
                   <span className="text-xs font-semibold uppercase tracking-[0.25em] text-archival">
                     {formatDate(item.publishedAt ?? item._createdAt)}
                   </span>
-                  <span className="material-symbols-outlined text-primary">
-                    north_east
-                  </span>
                 </div>
+
                 <h3 className="mb-3 font-headline text-[1.5rem] font-black text-on-surface transition-colors group-hover:text-primary">
                   {item.title}
                 </h3>
                 <p className="font-body text-[1.05rem] leading-relaxed text-on-surface-variant">
                   {item.excerpt ?? "Noch keine Beschreibung verfügbar."}
                 </p>
+
               </Link>
             ))}
           </div>
@@ -71,9 +76,6 @@ export function ArtikelPage({ projekte, beitrage }: ArtikelPageProps) {
             <h2 className="font-headline text-[clamp(1.75rem,3vw,2.75rem)] font-black uppercase text-on-surface">
               Beiträge
             </h2>
-            <span className="border border-charcoal bg-on-surface px-3 py-1 text-xs font-semibold uppercase tracking-wide text-secondary-container">
-              Journal
-            </span>
           </div>
 
           <div className="space-y-6">
@@ -101,7 +103,7 @@ export function ArtikelPage({ projekte, beitrage }: ArtikelPageProps) {
                   </span>
                 </div>
 
-                <h3 className="mb-2 font-headline text-[1.5rem] font-black text-on-surface">
+                <h3 className="mb-3 font-headline text-[1.5rem] font-black text-on-surface transition-colors group-hover:text-primary">
                   {item.title}
                 </h3>
                 <p className="font-body text-[1.05rem] leading-relaxed text-on-surface-variant">

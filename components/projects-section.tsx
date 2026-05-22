@@ -1,22 +1,7 @@
 import Image from "next/image";
 import { ArrowRightIcon, OpenInNewIcon } from "./site-icons";
 import { PROJECTS } from "./site-data";
-
-type ProjectVariant = "light" | "dark";
-
-type ProjectCardProps = {
-  index: string;
-  category: string;
-  title: string[];
-  description: string;
-  ctaLabel: string;
-  ctaHref: string;
-  ctaIcon: "arrow" | "open";
-  variant: ProjectVariant;
-  reverse: boolean;
-  image: string;
-  stampImage?: string;
-};
+import type { ProjectCardProps } from "@/types/site";
 
 function ProjectCard({
   index,
