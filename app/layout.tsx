@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { SiteFooter } from "@/components/site-footer";
-import { ScrollEffects } from "@/components/scroll-effects";
-import { SiteHeader } from "@/components/site-header";
+import { AppShell } from "@/components/app-shell";
 
 export const metadata: Metadata = {
   title: "DeComVo - Decolonized Community Voices (YOLO variant)",
@@ -20,10 +18,7 @@ export default function RootLayout({
       className="light h-full antialiased"
     >
       <body className="min-h-full flex flex-col bg-white text-charcoal font-body overflow-x-hidden selection:bg-primary-container selection:text-white">
-        <SiteHeader />
-        <main className="w-full overflow-x-hidden bg-white">{children}</main>
-        <SiteFooter />
-        <ScrollEffects />
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   );
