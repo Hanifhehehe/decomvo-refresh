@@ -20,11 +20,11 @@ export function SiteFooter() {
             />
           </div>
           <p className="text-[11px] font-bold uppercase leading-loose tracking-[0.3em] text-archival">
-            © 2024 DECOLONIZED COMMUNITY VOICES.
+            © 2026 DEKOLONISIERTE GEMEINSCHAFTSSTIMMEN.
             <br />
-            ALL RIGHTS RESERVED FOR THE PEOPLE.
+            ALLE RECHTE DEM VOLK VORBEHALTEN.
             <br />
-            MAKING DECOLONIZED VOICES HEARD.
+            DEKOLONISIERTE PERSPEKTIVEN HÖRBAR MACHEN.
           </p>
         </div>
 
