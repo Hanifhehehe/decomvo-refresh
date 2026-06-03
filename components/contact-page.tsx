@@ -118,7 +118,7 @@ export function ContactPage() {
                 htmlFor="privacy"
               >
                 Ich akzeptiere die{" "}
-                <a className="text-primary underline" href="#">
+                <a className="text-primary underline" href="/datenschutz">
                   Datenschutzerklärung
                 </a>
                 .

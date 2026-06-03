@@ -54,8 +54,8 @@ export const PROJECTS = [
 }>;
 
 export const LEGAL_ITEMS = [
-  { label: "App. A: Kooperation", href: "#" },
-  { label: "App. B: Datenschutz", href: "#" },
-  { label: "App. C: Impressum", href: "#" },
-  { label: "App. D: Kontakt", href: "#" },
+  { label: "App. A: Kooperation", href: "/kooperation" },
+  { label: "App. B: Datenschutz", href: "/datenschutz" },
+  { label: "App. C: Impressum", href: "/impressum" },
+  { label: "App. D: Kontakt", href: "/kontakt" },
 ] as const;
